@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Log in or create your PharmaNear account to access medicine search, price comparison, and pharmacy locator.">
+  <title>PharmaNear | Login & Register</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300B894'/%3E%3Cstop offset='100%25' style='stop-color:%2300CEFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3E💊%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <div class="auth-page">
+    <!-- ========== Left Panel ========== -->
+    <div class="auth-left">
+      <div class="auth-left-orb auth-left-orb-1"></div>
+      <div class="auth-left-orb auth-left-orb-2"></div>
+
+      <div class="auth-left-content">
+        <a href="index.html" class="auth-brand">
+          <div class="logo-icon">💊</div>
+          <h2>Pharma<span>Near</span></h2>
+        </a>
+
+        <h1>Your Health,<br><span class="text-gradient">Our Priority</span></h1>
+        <p class="auth-tagline">
+          Join thousands of users who trust PharmaNear to find medicines, compare prices, and manage their health effortlessly.
+        </p>
+
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="feature-check" style="background: rgba(0,184,148,0.15); color: var(--primary-light);">
+              <i data-lucide="search" style="width:20px;height:20px"></i>
+            </div>
+            <p><strong>Smart Search</strong> — Find any medicine across 2,500+ pharmacies instantly</p>
+          </div>
+          <div class="auth-feature">
+            <div class="feature-check" style="background: rgba(108,92,231,0.15); color: var(--secondary-light);">
+              <i data-lucide="git-compare-arrows" style="width:20px;height:20px"></i>
+            </div>
+            <p><strong>Price Compare</strong> — Compare prices and save up to 60% on medicines</p>
+          </div>
+          <div class="auth-feature">
+            <div class="feature-check" style="background: rgba(0,206,255,0.15); color: var(--accent-light);">
+              <i data-lucide="scan-line" style="width:20px;height:20px"></i>
+            </div>
+            <p><strong>Rx Scanner</strong> — Scan prescriptions with AI-powered OCR technology</p>
+          </div>
+          <div class="auth-feature">
+            <div class="feature-check" style="background: rgba(253,121,168,0.15); color: var(--pink);">
+              <i data-lucide="shield-check" style="width:20px;height:20px"></i>
+            </div>
+            <p><strong>100% Secure</strong> — Your health data is encrypted and fully private</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Right Panel ========== -->
+    <div class="auth-right">
+      <div class="auth-form-container">
+        
+        <!-- LOGIN FORM -->
+        <div class="auth-form-panel" id="login-panel">
+          <div class="auth-form-header">
+            <h2>Welcome Back 👋</h2>
+            <p>Don't have an account? <a href="#" onclick="showRegister(); return false;" id="switch-to-register">Create one</a></p>
+          </div>
+
+          <form class="auth-form" id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label class="form-label" for="login-email">Email Address</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="mail" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="login-password">Password</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="lock" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">
+                  <i data-lucide="eye" style="width:18px;height:18px"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="remember-me">
+                <input type="checkbox" id="remember-me"> Remember me
+              </label>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit" id="login-submit-btn">
+              <i data-lucide="log-in" style="width:18px;height:18px"></i>
+              Sign In
+            </button>
+          </form>
+
+          <div class="auth-social">
+            <div class="divider-text">or continue with</div>
+            <div class="social-buttons">
+              <button class="social-btn" id="google-login-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Google
+              </button>
+              <button class="social-btn" id="apple-login-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                Apple
+              </button>
+            </div>
+          </div>
+
+          <p class="auth-terms">
+            By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          </p>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div class="auth-form-panel hidden" id="register-panel">
+          <div class="auth-form-header">
+            <h2>Create Account ✨</h2>
+            <p>Already have an account? <a href="#" onclick="showLogin(); return false;" id="switch-to-login">Sign in</a></p>
+          </div>
+
+          <form class="auth-form" id="register-form" onsubmit="handleRegister(event)">
+            <!-- Role Selector -->
+            <div class="form-group">
+              <label class="form-label">I am a</label>
+              <div class="role-selector">
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-user" value="user" checked>
+                  <label for="role-user">
+                    <span class="role-icon">👤</span>
+                    <span class="role-name">Customer</span>
+                    <span class="role-desc">Search & buy</span>
+                  </label>
+                </div>
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-pharmacy" value="pharmacy">
+                  <label for="role-pharmacy">
+                    <span class="role-icon">🏥</span>
+                    <span class="role-name">Pharmacy</span>
+                    <span class="role-desc">Sell & manage</span>
+                  </label>
+                </div>
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-admin" value="admin">
+                  <label for="role-admin">
+                    <span class="role-icon">⚙️</span>
+                    <span class="role-name">Admin</span>
+                    <span class="role-desc">Platform ops</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-first-name">First Name</label>
+                <div class="form-input-wrapper">
+                  <i data-lucide="user" class="input-icon" style="width:18px;height:18px"></i>
+                  <input type="text" id="reg-first-name" class="form-input" placeholder="First name" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-last-name">Last Name</label>
+                <div class="form-input-wrapper">
+                  <i data-lucide="user" class="input-icon" style="width:18px;height:18px"></i>
+                  <input type="text" id="reg-last-name" class="form-input" placeholder="Last name" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-email">Email Address</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="mail" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="email" id="reg-email" class="form-input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-phone">Phone Number</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="phone" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="tel" id="reg-phone" class="form-input" placeholder="+91 XXXXX XXXXX" required>
+              </div>
+            </div>
+
+            <!-- Pharmacy-specific fields -->
+            <div id="pharmacy-fields" style="display:none;">
+              <div class="form-group" style="margin-bottom: var(--space-5);">
+                <label class="form-label" for="reg-pharmacy-name">Pharmacy Name</label>
+                <div class="form-input-wrapper">
+                  <i data-lucide="building-2" class="input-icon" style="width:18px;height:18px"></i>
+                  <input type="text" id="reg-pharmacy-name" class="form-input" placeholder="Your pharmacy name">
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom: var(--space-5);">
+                <label class="form-label" for="reg-license">License Number</label>
+                <div class="form-input-wrapper">
+                  <i data-lucide="file-badge" class="input-icon" style="width:18px;height:18px"></i>
+                  <input type="text" id="reg-license" class="form-input" placeholder="Pharmacy license number">
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom: var(--space-5);">
+                <label class="form-label" for="reg-address">Pharmacy Address</label>
+                <div class="form-input-wrapper">
+                  <i data-lucide="map-pin" class="input-icon" style="width:18px;height:18px"></i>
+                  <input type="text" id="reg-address" class="form-input" placeholder="Full address">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Password</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="lock" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="password" id="reg-password" class="form-input" placeholder="Create a password" required oninput="checkPasswordStrength(this.value)">
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('reg-password', this)">
+                  <i data-lucide="eye" style="width:18px;height:18px"></i>
+                </button>
+              </div>
+              <div class="password-strength">
+                <div class="strength-bar" id="str-bar-1"></div>
+                <div class="strength-bar" id="str-bar-2"></div>
+                <div class="strength-bar" id="str-bar-3"></div>
+                <div class="strength-bar" id="str-bar-4"></div>
+              </div>
+              <div class="strength-text" id="strength-text" style="color: var(--gray-500);"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+              <div class="form-input-wrapper">
+                <i data-lucide="lock" class="input-icon" style="width:18px;height:18px"></i>
+                <input type="password" id="reg-confirm-password" class="form-input" placeholder="Confirm your password" required>
+              </div>
+            </div>
+
+            <label class="remember-me">
+              <input type="checkbox" id="agree-terms" required> I agree to the <a href="#" style="color:var(--primary-light); margin-left:4px;">Terms & Conditions</a>
+            </label>
+
+            <button type="submit" class="btn btn-primary btn-submit" id="register-submit-btn">
+              <i data-lucide="user-plus" style="width:18px;height:18px"></i>
+              Create Account
+            </button>
+          </form>
+
+          <div class="auth-social">
+            <div class="divider-text">or sign up with</div>
+            <div class="social-buttons">
+              <button class="social-btn" id="google-register-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Google
+              </button>
+              <button class="social-btn" id="apple-register-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                Apple
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Panel switching
+    function showLogin() {
+      document.getElementById('login-panel').classList.remove('hidden');
+      document.getElementById('register-panel').classList.add('hidden');
+      window.location.hash = '';
+    }
+
+    function showRegister() {
+      document.getElementById('login-panel').classList.add('hidden');
+      document.getElementById('register-panel').classList.remove('hidden');
+      window.location.hash = 'register';
+    }
+
+    // Check URL hash on load
+    if (window.location.hash === '#register') {
+      showRegister();
+    }
+
+    // Role selector: show pharmacy fields
+    document.querySelectorAll('input[name="role"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const pharmacyFields = document.getElementById('pharmacy-fields');
+        if (e.target.value === 'pharmacy') {
+          pharmacyFields.style.display = 'block';
+        } else {
+          pharmacyFields.style.display = 'none';
+        }
+      });
+    });
+
+    // Password visibility toggle
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      btn.innerHTML = isPassword 
+        ? '<i data-lucide="eye-off" style="width:18px;height:18px"></i>'
+        : '<i data-lucide="eye" style="width:18px;height:18px"></i>';
+      lucide.createIcons();
+    }
+
+    // Password strength checker
+    function checkPasswordStrength(password) {
+      const bars = [
+        document.getElementById('str-bar-1'),
+        document.getElementById('str-bar-2'),
+        document.getElementById('str-bar-3'),
+        document.getElementById('str-bar-4')
+      ];
+      const textEl = document.getElementById('strength-text');
+
+      let strength = 0;
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+      if (/[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password)) strength++;
+
+      const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+      const classes = ['', 'weak', 'medium', 'medium', 'strong'];
+      const colors = ['', 'var(--red)', 'var(--orange)', 'var(--orange)', 'var(--primary)'];
+
+      bars.forEach((bar, i) => {
+        bar.className = 'strength-bar';
+        if (i < strength) {
+          bar.classList.add('active', classes[strength]);
+        }
+      });
+
+      textEl.textContent = password ? labels[strength] || '' : '';
+      textEl.style.color = colors[strength] || 'var(--gray-500)';
+    }
+
+    // Handle Login
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const btn = document.getElementById('login-submit-btn');
+      
+      btn.innerHTML = '<span class="animate-spin">⏳</span> Signing in...';
+      btn.disabled = true;
+
+      try {
+        const baseApi = (typeof API_URL !== 'undefined' ? API_URL : (window.API_URL || ''));
+        const res = await fetch(`${baseApi}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          const user = data.user;
+          localStorage.setItem('pharmanear_user', JSON.stringify(user));
+          
+          if (user.role === 'pharmacy_owner' || user.role === 'pharmacy') {
+            window.location.href = 'pharmacy-dashboard.html';
+          } else if (user.role === 'admin') {
+            window.location.href = 'admin-dashboard.html';
+          } else {
+            window.location.href = 'user-dashboard.html';
+          }
+        } else {
+          alert(data.error || 'Login failed. Please check credentials.');
+          btn.innerHTML = 'Sign In';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        console.warn('API error, falling back to local session', err);
+        // Fallback demo account check
+        const role = email.includes('admin') ? 'admin' : (email.includes('apollo') || email.includes('medplus') || email.includes('pharmacy')) ? 'pharmacy_owner' : 'customer';
+        const userData = { email, name: email.split('@')[0], role };
+        localStorage.setItem('pharmanear_user', JSON.stringify(userData));
+        if (role === 'pharmacy_owner') window.location.href = 'pharmacy-dashboard.html';
+        else if (role === 'admin') window.location.href = 'admin-dashboard.html';
+        else window.location.href = 'user-dashboard.html';
+      }
+    }
+
+    // Handle Register
+    async function handleRegister(e) {
+      e.preventDefault();
+      const roleRadio = document.querySelector('input[name="role"]:checked');
+      let role = roleRadio ? roleRadio.value : 'customer';
+      if (role === 'pharmacy') role = 'pharmacy_owner';
+      if (role === 'user') role = 'customer';
+
+      const firstName = document.getElementById('reg-first-name').value;
+      const lastName = document.getElementById('reg-last-name').value;
+      const email = document.getElementById('reg-email').value;
+      const phone = document.getElementById('reg-phone').value;
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      const payload = {
+        name: `${firstName} ${lastName}`.trim(),
+        email: email,
+        password: password,
+        phone: phone,
+        role: role
+      };
+
+      if (role === 'pharmacy_owner') {
+        const pharmInput = document.getElementById('reg-pharmacy-name');
+        const licInput = document.getElementById('reg-license');
+        const addrInput = document.getElementById('reg-address');
+        if (pharmInput) payload.pharmacy_name = pharmInput.value;
+        if (licInput) payload.license = licInput.value;
+        if (addrInput) payload.address = addrInput.value;
+      }
+
+      const btn = document.getElementById('register-submit-btn');
+      btn.innerHTML = '<span class="animate-spin">⏳</span> Creating account...';
+      btn.disabled = true;
+
+      try {
+        const baseApi = (typeof API_URL !== 'undefined' ? API_URL : (window.API_URL || ''));
+        const res = await fetch(`${baseApi}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem('pharmanear_user', JSON.stringify(data.user));
+          if (role === 'pharmacy_owner') window.location.href = 'pharmacy-dashboard.html';
+          else if (role === 'admin') window.location.href = 'admin-dashboard.html';
+          else window.location.href = 'user-dashboard.html';
+        } else {
+          alert(data.error || 'Registration failed');
+          btn.innerHTML = 'Create Account';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        console.warn('API error, falling back', err);
+        const userData = { email, name: payload.name, role };
+        localStorage.setItem('pharmanear_user', JSON.stringify(userData));
+        if (role === 'pharmacy_owner') window.location.href = 'pharmacy-dashboard.html';
+        else if (role === 'admin') window.location.href = 'admin-dashboard.html';
+        else window.location.href = 'user-dashboard.html';
+      }
+    }
+  </script>
+</body>
+</html>

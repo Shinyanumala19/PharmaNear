@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PharmaNear - AI-powered medicine availability checker and pharmacy locator. Compare prices, scan prescriptions, and find the nearest pharmacy instantly.">
+  <title>PharmaNear | AI-Powered Medicine Availability & Pharmacy Locator</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300B894'/%3E%3Cstop offset='100%25' style='stop-color:%2300CEFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-weight='bold' font-family='Arial'%3E💊%3C/text%3E%3C/svg%3E">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ========== Navbar ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand" id="nav-brand">
+        <div class="logo-icon">💊</div>
+        <div class="brand-text">Pharma<span>Near</span></div>
+      </a>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pharmacies">Pharmacies</a>
+        <a href="#testimonials">Reviews</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="login.html#register" class="btn btn-primary" id="nav-signup-btn">
+          Get Started
+          <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== Hero Section ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="assets/images/hero-banner.jpg" alt="PharmaNear Hero">
+      <div class="hero-gradient"></div>
+    </div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          AI-Powered Healthcare Platform
+        </div>
+        <h1>
+          Find Your<br>
+          Medicine <span class="gradient-text">Instantly</span><br>
+          Anywhere
+        </h1>
+        <p class="hero-description">
+          Compare medicine prices across pharmacies, scan prescriptions with AI, 
+          locate nearby stores, and order or reserve your medications — all in one platform.
+        </p>
+
+        <div class="hero-search">
+          <div class="search-bar" id="hero-search-bar">
+            <i data-lucide="search" class="search-icon" style="width:20px;height:20px"></i>
+            <input type="text" placeholder="Search medicines, pharmacies, or health products..." id="hero-search-input">
+            <button class="search-btn" onclick="handleHeroSearch()">
+              <i data-lucide="sparkles" style="width:16px;height:16px"></i>
+              Search
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-number" id="stat-pharmacies">2,500+</div>
+            <div class="stat-label">Pharmacies</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-number" id="stat-medicines">50,000+</div>
+            <div class="stat-label">Medicines</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-number" id="stat-users">100K+</div>
+            <div class="stat-label">Happy Users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-wrapper">
+          <img src="assets/images/hero-banner.jpg" alt="PharmaNear Platform" id="hero-main-img">
+        </div>
+        
+        <div class="floating-card floating-card-1">
+          <div class="fc-icon" style="background: rgba(0,184,148,0.2); color: #55EFC4;">
+            <i data-lucide="pill" style="width:18px;height:18px"></i>
+          </div>
+          <div class="fc-text">
+            <h4>Paracetamol 500mg</h4>
+            <p style="color:#55EFC4">✓ In Stock — ₹25</p>
+          </div>
+        </div>
+
+        <div class="floating-card floating-card-2">
+          <div class="fc-icon" style="background: rgba(108,92,231,0.2); color: #A29BFE;">
+            <i data-lucide="map-pin" style="width:18px;height:18px"></i>
+          </div>
+          <div class="fc-text">
+            <h4>3 Pharmacies Nearby</h4>
+            <p>Within 2 km radius</p>
+          </div>
+        </div>
+
+        <div class="floating-card floating-card-3">
+          <div class="fc-icon" style="background: rgba(0,206,255,0.2); color: #74E8FF;">
+            <i data-lucide="bot" style="width:18px;height:18px"></i>
+          </div>
+          <div class="fc-text">
+            <h4>AI Assistant</h4>
+            <p>Ready to help!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Features Section ========== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <i data-lucide="zap" style="width:14px;height:14px"></i>
+          Powerful Features
+        </div>
+        <h2>Everything You Need for<br><span class="text-gradient">Smarter Healthcare</span></h2>
+        <p>From instant medicine search to AI-powered prescription scanning — PharmaNear puts the pharmacy in your pocket.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" id="feature-search">
+          <div class="feature-image">
+            <img src="assets/images/feature-search.jpg" alt="Medicine Search">
+          </div>
+          <div class="feature-icon" style="background: rgba(0,184,148,0.15); color: var(--primary-light);">
+            <i data-lucide="search" style="width:28px;height:28px"></i>
+          </div>
+          <h3>Smart Medicine Search</h3>
+          <p>Search across thousands of medicines with real-time availability, pricing, and alternative suggestions powered by AI.</p>
+        </div>
+
+        <div class="feature-card" id="feature-compare">
+          <div class="feature-image">
+            <img src="assets/images/feature-compare.jpg" alt="Price Compare">
+          </div>
+          <div class="feature-icon" style="background: rgba(108,92,231,0.15); color: var(--secondary-light);">
+            <i data-lucide="git-compare-arrows" style="width:28px;height:28px"></i>
+          </div>
+          <h3>Price Comparison</h3>
+          <p>Compare medicine prices across multiple pharmacies in your area. Find the best deals and save money on your prescriptions.</p>
+        </div>
+
+        <div class="feature-card" id="feature-prescription">
+          <div class="feature-image">
+            <img src="assets/images/feature-prescription.jpg" alt="Prescription Scanner">
+          </div>
+          <div class="feature-icon" style="background: rgba(0,206,255,0.15); color: var(--accent-light);">
+            <i data-lucide="scan-line" style="width:28px;height:28px"></i>
+          </div>
+          <h3>Prescription Scanner</h3>
+          <p>Snap a photo of your prescription and our AI instantly identifies medicines, checks availability, and finds the best prices.</p>
+        </div>
+
+        <div class="feature-card" id="feature-ai">
+          <div class="feature-image">
+            <img src="assets/images/feature-ai.jpg" alt="AI Assistant">
+          </div>
+          <div class="feature-icon" style="background: rgba(253,121,168,0.15); color: var(--pink);">
+            <i data-lucide="bot" style="width:28px;height:28px"></i>
+          </div>
+          <h3>AI Health Assistant</h3>
+          <p>Get instant answers to medicine queries, drug interactions, dosage info, and personalized health recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== How It Works ========== -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <i data-lucide="layers" style="width:14px;height:14px"></i>
+          Simple Process
+        </div>
+        <h2>How <span class="text-gradient">PharmaNear</span> Works</h2>
+        <p>Get your medicines in 4 simple steps — no more running from pharmacy to pharmacy.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">
+            <div class="step-bg" style="background: var(--gradient-primary);"></div>
+            <span style="color: var(--primary-light);">1</span>
+          </div>
+          <h3>Search or Scan</h3>
+          <p>Type a medicine name or scan your prescription using our AI-powered scanner.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">
+            <div class="step-bg" style="background: var(--gradient-secondary);"></div>
+            <span style="color: var(--secondary-light);">2</span>
+          </div>
+          <h3>Compare & Choose</h3>
+          <p>Compare prices and availability across nearby pharmacies to find the best deal.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">
+            <div class="step-bg" style="background: var(--gradient-accent);"></div>
+            <span style="color: var(--accent-light);">3</span>
+          </div>
+          <h3>Reserve or Order</h3>
+          <p>Reserve your medicine for pickup or place an order for home delivery instantly.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">
+            <div class="step-bg" style="background: var(--gradient-warm);"></div>
+            <span style="color: #F8C471;">4</span>
+          </div>
+          <h3>Get Notified</h3>
+          <p>Receive real-time notifications on order status, pickup readiness, or delivery updates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Nearby Pharmacies ========== -->
+  <section class="pharmacies-section" id="pharmacies">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+          Nearby Pharmacies
+        </div>
+        <h2>Popular <span class="text-gradient">Pharmacies</span> Near You</h2>
+        <p>Find trusted pharmacies in your neighborhood with verified stock and competitive prices.</p>
+      </div>
+
+      <div class="grid grid-4" style="gap: var(--space-6);" id="pharmacies-grid">
+        <!-- Pharmacy 1 -->
+        <div class="pharmacy-card" id="pharmacy-1">
+          <div class="pharmacy-image" style="background: linear-gradient(135deg, #0A2647, #144272); display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:3rem;">🏥</div>
+            <span class="pharmacy-status open">Open</span>
+          </div>
+          <div class="pharmacy-info">
+            <h3>MedPlus Pharmacy</h3>
+            <div class="pharmacy-location">
+              <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+              MG Road, Bangalore
+            </div>
+            <div class="pharmacy-meta">
+              <div class="pharmacy-rating">
+                ⭐ 4.8 <span style="color:var(--gray-500)">(324)</span>
+              </div>
+              <div class="pharmacy-distance">
+                <i data-lucide="navigation" style="width:12px;height:12px"></i> 0.8 km
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pharmacy 2 -->
+        <div class="pharmacy-card" id="pharmacy-2">
+          <div class="pharmacy-image" style="background: linear-gradient(135deg, #1B1A55, #2D2B70); display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:3rem;">💊</div>
+            <span class="pharmacy-status open">Open</span>
+          </div>
+          <div class="pharmacy-info">
+            <h3>Apollo Pharmacy</h3>
+            <div class="pharmacy-location">
+              <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+              Indiranagar, Bangalore
+            </div>
+            <div class="pharmacy-meta">
+              <div class="pharmacy-rating">
+                ⭐ 4.6 <span style="color:var(--gray-500)">(518)</span>
+              </div>
+              <div class="pharmacy-distance">
+                <i data-lucide="navigation" style="width:12px;height:12px"></i> 1.2 km
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pharmacy 3 -->
+        <div class="pharmacy-card" id="pharmacy-3">
+          <div class="pharmacy-image" style="background: linear-gradient(135deg, #0B2930, #1A4D3A); display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:3rem;">🔬</div>
+            <span class="pharmacy-status open">Open</span>
+          </div>
+          <div class="pharmacy-info">
+            <h3>Netmeds Store</h3>
+            <div class="pharmacy-location">
+              <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+              Koramangala, Bangalore
+            </div>
+            <div class="pharmacy-meta">
+              <div class="pharmacy-rating">
+                ⭐ 4.5 <span style="color:var(--gray-500)">(209)</span>
+              </div>
+              <div class="pharmacy-distance">
+                <i data-lucide="navigation" style="width:12px;height:12px"></i> 1.8 km
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pharmacy 4 -->
+        <div class="pharmacy-card" id="pharmacy-4">
+          <div class="pharmacy-image" style="background: linear-gradient(135deg, #3D0C11, #5C1A24); display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:3rem;">⚕️</div>
+            <span class="pharmacy-status closed">Closed</span>
+          </div>
+          <div class="pharmacy-info">
+            <h3>Wellness Forever</h3>
+            <div class="pharmacy-location">
+              <i data-lucide="map-pin" style="width:14px;height:14px"></i>
+              Whitefield, Bangalore
+            </div>
+            <div class="pharmacy-meta">
+              <div class="pharmacy-rating">
+                ⭐ 4.3 <span style="color:var(--gray-500)">(145)</span>
+              </div>
+              <div class="pharmacy-distance">
+                <i data-lucide="navigation" style="width:12px;height:12px"></i> 3.5 km
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="search.html" class="btn btn-outline" id="view-all-pharmacies">
+          View All Pharmacies
+          <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Testimonials ========== -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <i data-lucide="heart" style="width:14px;height:14px"></i>
+          Loved by Users
+        </div>
+        <h2>What Our <span class="text-gradient">Users</span> Say</h2>
+        <p>Join thousands of happy users who trust PharmaNear for their medicine needs.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card" id="testimonial-1">
+          <div class="quote-icon">❝</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">
+            "PharmaNear saved me so much time! I used to visit 3-4 pharmacies to find my mom's medicines. Now I just search and compare — found a pharmacy with stock in 2 minutes!"
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">R</div>
+            <div class="author-info">
+              <h4>Rajesh Kumar</h4>
+              <p>Software Engineer, Bangalore</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card" id="testimonial-2">
+          <div class="quote-icon">❝</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">
+            "The prescription scanner is magical! I just pointed my camera at the prescription and it instantly found all the medicines. The price comparison feature saved me ₹400 on my monthly medicines."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: var(--gradient-secondary);">P</div>
+            <div class="author-info">
+              <h4>Priya Sharma</h4>
+              <p>Teacher, Mumbai</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card" id="testimonial-3">
+          <div class="quote-icon">❝</div>
+          <div class="testimonial-rating">★★★★★</div>
+          <p class="testimonial-text">
+            "As a pharmacy owner, PharmaNear has helped me reach more customers. The dashboard is intuitive, and the order management system is perfect. My sales increased by 40%!"
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: var(--gradient-accent);">D</div>
+            <div class="author-info">
+              <h4>Dr. Anil Mehta</h4>
+              <p>Pharmacy Owner, Delhi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA Section ========== -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <div class="cta-card">
+        <h2>Ready to Find Your<br><span class="text-gradient">Medicine Instantly?</span></h2>
+        <p>Join 100,000+ users who trust PharmaNear. Sign up today and never worry about finding medicines again.</p>
+        <div class="cta-buttons">
+          <a href="login.html#register" class="btn btn-primary btn-lg" id="cta-signup-btn">
+            <i data-lucide="sparkles" style="width:18px;height:18px"></i>
+            Start Free Today
+          </a>
+          <a href="#features" class="btn btn-outline btn-lg" id="cta-learn-btn">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="logo-icon">💊</div>
+            <h3>Pharma<span>Near</span></h3>
+          </div>
+          <p>AI-powered medicine availability checker and pharmacy locator. Find, compare, and order your medicines with ease.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width:18px;height:18px"></i></a>
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook" style="width:18px;height:18px"></i></a>
+            <a href="#" aria-label="Instagram"><i data-lucide="instagram" style="width:18px;height:18px"></i></a>
+            <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:18px;height:18px"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="search.html">Medicine Search</a></li>
+            <li><a href="search.html#compare">Price Compare</a></li>
+            <li><a href="prescription.html">Prescription Scanner</a></li>
+            <li><a href="#">AI Assistant</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">For Pharmacies</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 PharmaNear. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+    /* Chatbot Window */
+    .chatbot-window {
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      width: 380px;
+      height: 520px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-2xl);
+      display: flex;
+      flex-direction: column;
+      z-index: var(--z-modal);
+      box-shadow: var(--shadow-xl);
+      transform: scale(0.9) translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .chatbot-window.active {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    }
+
+    .chatbot-header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chatbot-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .chatbot-header-info h4 {
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+
+    .chatbot-header-info p {
+      font-size: var(--text-xs);
+      color: var(--primary-light);
+    }
+
+    .chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-message {
+      max-width: 85%;
+      padding: 10px 16px;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .chat-message.bot {
+      align-self: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--gray-200);
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .chatbot-input {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-tertiary);
+      border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+    }
+
+    .chatbot-input input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-full);
+      padding: 10px 16px;
+      color: white;
+      font-size: var(--text-sm);
+    }
+
+    .chatbot-input input::placeholder { color: var(--gray-500); }
+
+    .chatbot-input button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chatbot-input button:hover {
+      box-shadow: var(--shadow-glow-primary);
+    }
+
+    /* Floating Chatbot Trigger Button */
+    .chatbot-trigger-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 28px;
+      z-index: 1050;
+      background: linear-gradient(135deg, #00B894, #00CEFF);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 184, 148, 0.45);
+      transition: all 0.25s ease;
+    }
+
+    .chatbot-trigger-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0, 184, 148, 0.65);
+    }
+
+    .bot-dot {
+      width: 8px;
+      height: 8px;
+      background: #55EFC4;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #55EFC4;
+    }
+
+    .quick-chips-bar {
+      display: flex;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--bg-tertiary);
+      overflow-x: auto;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .quick-chip-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #CBD5E1;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .quick-chip-btn:hover {
+      background: rgba(0, 184, 148, 0.2);
+      color: #fff;
+    }
+  </style>
+
+  <!-- Floating Chatbot Launcher Button -->
+  <button class="chatbot-trigger-btn" id="chatbot-trigger-btn" onclick="toggleChatbot()" title="Chat with AI Pharmacist">
+    <span style="font-size:1.3rem;">🤖</span>
+    <span>Ask PharmaNear AI</span>
+    <span class="bot-dot"></span>
+  </button>
+
+  <!-- Chatbot Window -->
+  <div class="chatbot-window" id="chatbot-window">
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">🤖</div>
+        <div>
+          <h4>PharmaNear AI Assistant</h4>
+          <p>● Online • Dosage & Availability</p>
+        </div>
+      </div>
+      <button onclick="toggleChatbot()" style="background:none;border:none;color:var(--gray-400);font-size:1.2rem;cursor:pointer;">
+        &times;
+      </button>
+    </div>
+
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chat-message bot">
+        👋 Hi! I am your <strong>PharmaNear AI Medical Assistant</strong>.
+        <br><br>
+        Ask me anything about:
+        <br>• Medicine dosages & active ingredients
+        <br>• Generic economical substitutes
+        <br>• Real-time stock in Hyderabad pharmacies
+        <br><br>
+        How can I help you today?
+      </div>
+    </div>
+
+    <!-- Quick question suggestions -->
+    <div class="quick-chips-bar">
+      <button class="quick-chip-btn" onclick="sendQuickQuery('Do you have Dolo 650 in stock?')">Dolo 650 Stock</button>
+      <button class="quick-chip-btn" onclick="sendQuickQuery('What is the dosage for Augmentin 625 Duo?')">Augmentin Dosage</button>
+      <button class="quick-chip-btn" onclick="sendQuickQuery('What should I take for acidity and heartburn?')">Acidity Relief</button>
+      <button class="quick-chip-btn" onclick="sendQuickQuery('Suggest generic alternative for Telma 40')">Telma 40 Generics</button>
+    </div>
+
+    <div class="chatbot-input">
+      <input type="text" placeholder="Ask about any medicine or symptom..." id="chatbot-input" onkeydown="if(event.key==='Enter') sendChatMessage()">
+      <button onclick="sendChatMessage()" id="chatbot-send-btn">
+        <i data-lucide="send" style="width:16px;height:16px"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== Scripts ========== -->
+  <script src="js/config.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const navLinks = document.getElementById('nav-links');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      });
+    }
+
+    // Hero search handler
+    function handleHeroSearch() {
+      const query = document.getElementById('hero-search-input').value.trim();
+      if (query) {
+        window.location.href = `user-dashboard.html?q=${encodeURIComponent(query)}`;
+      } else {
+        window.location.href = `user-dashboard.html`;
+      }
+    }
+
+    document.getElementById('hero-search-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleHeroSearch();
+    });
+
+    // Chatbot toggle
+    let chatbotOpen = false;
+    function toggleChatbot() {
+      chatbotOpen = !chatbotOpen;
+      document.getElementById('chatbot-window').classList.toggle('active', chatbotOpen);
+    }
+
+    function sendQuickQuery(query) {
+      if (!chatbotOpen) toggleChatbot();
+      document.getElementById('chatbot-input').value = query;
+      sendChatMessage();
+    }
+
+    // Chat message sender
+    async function sendChatMessage() {
+      const input = document.getElementById('chatbot-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const messagesDiv = document.getElementById('chatbot-messages');
+      
+      // User message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-message user';
+      userMsg.textContent = message;
+      messagesDiv.appendChild(userMsg);
+      input.value = '';
+
+      // Bot typing indicator
+      const typingMsg = document.createElement('div');
+      typingMsg.className = 'chat-message bot';
+      typingMsg.innerHTML = '<span class="animate-pulse">Consulting AI Pharmacist...</span>';
+      messagesDiv.appendChild(typingMsg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      const baseApi = (typeof API_URL !== 'undefined' ? API_URL : (window.API_URL || ''));
+      const apiEndpoint = `${baseApi}/api/ai/chat`;
+
+      try {
+        const res = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: message })
+        });
+        if (!res.ok) throw new Error('API returned ' + res.status);
+        const data = await res.json();
+        typingMsg.remove();
+
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot';
+        botMsg.innerHTML = (data.reply || '')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n\n/g, '<br><br>')
+          .replace(/\n- /g, '<br>• ');
+        messagesDiv.appendChild(botMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      } catch (err) {
+        console.warn('Backend fetch error, using local clinical AI:', err);
+        typingMsg.remove();
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-message bot';
+        botMsg.innerHTML = getAIResponse(message);
+        messagesDiv.appendChild(botMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    }
+
+    function getAIResponse(message) {
+      const lower = message.toLowerCase();
+      if (lower.includes('paracetamol') || lower.includes('crocin') || lower.includes('dolo') || lower.includes('fever')) {
+        return '💊 <strong>Paracetamol 650mg (Dolo/Crocin)</strong> is in stock across 12 Hyderabad pharmacies starting at <strong>₹30/strip</strong>.<br><br>• Recommended dose: 1 tab after meals every 6–8 hrs.<br><a href="user-dashboard.html?q=dolo" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Compare Stores</a>';
+      } else if (lower.includes('augmentin') || lower.includes('amoxicillin') || lower.includes('antibiotic')) {
+        return '💊 <strong>Augmentin 625 Duo (Amoxicillin + Clavulanic Acid)</strong> is in stock at 12 Hyderabad pharmacies from <strong>₹158.24</strong>.<br><br>• Prescription required.<br><a href="user-dashboard.html?q=augmentin" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Check Stock</a>';
+      } else if (lower.includes('acidity') || lower.includes('gas') || lower.includes('pan 40') || lower.includes('stomach')) {
+        return '🍵 For <strong>acidity & reflux</strong>: Take <strong>Pan 40</strong> (Pantoprazole) 30 mins before breakfast, or <strong>Digene Gel</strong> for instant relief.<br><br>In stock from ₹10 to ₹88.<br><a href="user-dashboard.html?q=pan" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">View Prices</a>';
+      } else if (lower.includes('cough') || lower.includes('cold') || lower.includes('allergy') || lower.includes('throat')) {
+        return '🌬️ For <strong>cold & cough</strong>: <strong>Montair-LC</strong> or <strong>Allegra 120mg</strong> for sneezing; <strong>Ascoril LS</strong> for wet cough.<br><br><a href="user-dashboard.html?q=cough" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Compare Cold Meds</a>';
+      } else if (lower.includes('prescription') || lower.includes('scan')) {
+        return '📋 You can scan doctor prescriptions using our <strong>AI Scanner</strong>!<br><br><a href="prescription-scanner.html" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Open Scanner</a>';
+      } else if (lower.includes('pharmacy') || lower.includes('apollo') || lower.includes('medplus') || lower.includes('store')) {
+        return '📍 Verified 24/7 stores include <strong>Apollo Banjara Hills</strong> and <strong>Wellness Forever Madhapur</strong>.<br><br><a href="user-dashboard.html#map-section" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Open Map Locator</a>';
+      } else {
+        return `I can help you locate <strong>${message}</strong> across 12 nearby Hyderabad pharmacies, check dosages, or compare prices.<br><br><a href="user-dashboard.html" class="btn btn-primary btn-sm mt-2" style="display:inline-block;color:#fff;">Open Search Hub</a>`;
+      }
+    }
+
+    // Intersection Observer for animations
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.feature-card, .step-card, .pharmacy-card, .testimonial-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Animate stats counter
+    function animateCounter(element, target) {
+      let current = 0;
+      const suffix = target.replace(/[0-9,.]/g, '');
+      const num = parseInt(target.replace(/[^0-9]/g, ''));
+      const increment = num / 60;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= num) {
+          current = num;
+          clearInterval(timer);
+        }
+        element.textContent = Math.floor(current).toLocaleString() + suffix;
+      }, 30);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(document.getElementById('stat-pharmacies'), '2,500+');
+          animateCounter(document.getElementById('stat-medicines'), '50,000+');
+          animateCounter(document.getElementById('stat-users'), '100K+');
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statsObserver.observe(document.querySelector('.hero-stats'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaNear | AI Prescription Scanner & Stock Finder</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2300CEFF'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3E📄%3C/text%3E%3C/svg%3E">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <header class="navbar dash-navbar">
+    <div class="container-fluid d-flex justify-between align-center">
+      <div class="d-flex align-center gap-3">
+        <a href="index.html" class="navbar-brand">
+          <div class="logo-icon">💊</div>
+          <div class="brand-text">Pharma<span>Near</span></div>
+        </a>
+        <span class="badge badge-info">AI Prescription Scanner</span>
+      </div>
+
+      <div class="d-flex align-center gap-3">
+        <a href="user-dashboard.html" class="btn btn-secondary btn-sm">
+          <i data-lucide="arrow-left" style="width:14px;height:14px;"></i>
+          <span>Customer Dashboard</span>
+        </a>
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Log Out">
+          <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container py-5" style="max-width:1100px;">
+    
+    <!-- Hero Banner -->
+    <div class="glass-card p-4 mb-4 text-center">
+      <span class="badge badge-primary mb-2">Powered by AI OCR & Database Matcher</span>
+      <h2>Scan Doctor's Prescription</h2>
+      <p class="text-muted text-sm mx-auto" style="max-width:650px;">
+        Upload a clear photo or PDF of your doctor's handwritten or printed prescription. 
+        Our AI automatically extracts medicine names, dosages, and quantities, then verifies real-time stock across 12+ Hyderabad pharmacies.
+      </p>
+    </div>
+
+    <div class="grid-2-col gap-4">
+      
+      <!-- Upload Dropzone Card -->
+      <div class="glass-card p-4">
+        <h4 class="mb-3">1. Upload Prescription</h4>
+        
+        <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFileSelected(event)">
+          <div class="dropzone-content text-center py-4">
+            <div class="upload-icon-circle mx-auto mb-3">
+              <i data-lucide="upload-cloud" style="width:32px;height:32px;color:var(--primary-color);"></i>
+            </div>
+            <p class="font-medium mb-1">Click to browse or drag & drop</p>
+            <span class="text-xs text-muted">Supports JPG, PNG, WEBP (Max 16 MB)</span>
+          </div>
+        </div>
+
+        <!-- Image Preview Box -->
+        <div id="preview-box" class="preview-card mt-3" style="display:none;">
+          <div class="d-flex justify-between align-center mb-2">
+            <span class="text-xs text-muted" id="file-name-label">rx_image.jpg</span>
+            <button class="btn btn-ghost btn-sm text-danger" onclick="removeSelectedFile()">&times; Remove</button>
+          </div>
+          <div class="img-frame">
+            <img id="image-preview" src="" alt="Prescription Preview">
+          </div>
+          <button class="btn btn-primary w-100 mt-3" id="scan-btn" onclick="submitPrescriptionScan()">
+            <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+            Run AI Prescription Scanner
+          </button>
+        </div>
+
+        <!-- Sample Prescriptions For Quick Testing -->
+        <div class="sample-rx-box mt-4 pt-3 border-top">
+          <span class="text-xs text-muted d-block mb-2">Or test with simulated prescription:</span>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="chip" onclick="simulateSampleScan('sample1')">Fever & Antibiotic Rx (Augmentin + Dolo)</button>
+            <button class="chip" onclick="simulateSampleScan('sample2')">Gastric & Cold Rx (Pan 40 + Montair)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scan Results Card -->
+      <div class="glass-card p-4">
+        <div class="d-flex justify-between align-center mb-3">
+          <h4 class="m-0">2. Recognized Medicines & Live Stores</h4>
+          <span class="badge badge-success" id="detected-badge" style="display:none;">4 Items Detected</span>
+        </div>
+
+        <div id="scan-status-placeholder" class="text-center py-5 text-muted">
+          <div style="font-size:3rem;margin-bottom:0.8rem;">📋</div>
+          <p>Upload a prescription on the left to see instant cross-store stock verification and pricing comparison.</p>
+        </div>
+
+        <!-- Scanning Loader -->
+        <div id="scanning-loader" class="text-center py-5" style="display:none;">
+          <div class="spinner mx-auto mb-3"></div>
+          <h4 class="mb-1">AI Analyzing Prescription...</h4>
+          <p class="text-xs text-muted">Transcribing physician handwriting and querying 12+ Hyderabad pharmacy databases</p>
+        </div>
+
+        <!-- Results Container -->
+        <div id="medicines-detected-list" style="display:none;">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/prescription.js"></script>
+</body>
+</html>

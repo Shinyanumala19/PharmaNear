@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaNear | Pharmacy Owner Portal</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236C5CE7'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3E🏪%3C/text%3E%3C/svg%3E">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <!-- Navbar -->
+  <header class="navbar dash-navbar">
+    <div class="container-fluid d-flex justify-between align-center">
+      <div class="d-flex align-center gap-3">
+        <a href="index.html" class="navbar-brand">
+          <div class="logo-icon" style="background:var(--secondary-color);">🏪</div>
+          <div class="brand-text">Pharma<span>Near</span></div>
+        </a>
+        <span class="badge badge-purple">Pharmacy Partner Portal</span>
+      </div>
+
+      <div class="d-flex align-center gap-3">
+        <div class="store-info-pill glass-card p-2 px-3 d-flex align-center gap-2">
+          <i data-lucide="store" style="color:var(--secondary-color);width:16px;height:16px;"></i>
+          <div>
+            <strong class="text-sm d-block" id="pharmacy-name-banner">Apollo Pharmacy - Banjara Hills</strong>
+            <span class="text-xs text-muted" id="pharmacy-license-banner">License: TS-HYD-2023-AP01</span>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Log Out">
+          <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <nav class="sidebar-nav">
+        <a href="#orders" class="nav-item active" onclick="switchOwnerTab('orders')">
+          <i data-lucide="inbox"></i>
+          <span>Customer Orders & Holds</span>
+          <span class="badge badge-primary ml-auto" id="orders-count-badge">0</span>
+        </a>
+        <a href="#inventory" class="nav-item" onclick="switchOwnerTab('inventory')">
+          <i data-lucide="package"></i>
+          <span>Inventory Management</span>
+        </a>
+        <a href="#alerts" class="nav-item" onclick="switchOwnerTab('alerts')">
+          <i data-lucide="alert-triangle"></i>
+          <span>Stock & Expiry Alerts</span>
+          <span class="badge badge-danger ml-auto" id="alerts-count-badge">0</span>
+        </a>
+        <a href="index.html" class="nav-item">
+          <i data-lucide="globe"></i>
+          <span>Public Portal</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer-card glass-card">
+        <strong class="text-sm">Store Live Status</strong>
+        <p class="text-xs text-muted mt-1">Verified partner store. Your stock changes are reflected in real-time across patient searches.</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dash-main">
+      
+      <!-- Key KPI Row -->
+      <section class="stats-row">
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-blue"><i data-lucide="package"></i></div>
+          <div>
+            <div class="stat-val" id="kpi-inventory-items">0</div>
+            <div class="stat-lbl">Active Inventory SKUs</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-emerald"><i data-lucide="shopping-cart"></i></div>
+          <div>
+            <div class="stat-val" id="kpi-pending-orders">0</div>
+            <div class="stat-lbl">Pending Orders / Holds</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-amber"><i data-lucide="alert-circle"></i></div>
+          <div>
+            <div class="stat-val" id="kpi-low-stock">0</div>
+            <div class="stat-lbl">Low Stock (&lt;10 Units)</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-pink"><i data-lucide="calendar"></i></div>
+          <div>
+            <div class="stat-val" id="kpi-expiring-soon">0</div>
+            <div class="stat-lbl">Expiring in 60 Days</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: Orders & Customer Holds -->
+      <section id="owner-tab-orders" class="owner-tab active">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-between align-center mb-3 flex-wrap gap-2">
+            <div>
+              <h3>Customer Orders & Stock Reservations</h3>
+              <p class="text-muted text-sm">Review incoming customer requests and update status for pickup notification.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="loadOwnerOrders()">
+              <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh Orders
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Type</th>
+                  <th>Customer Info</th>
+                  <th>Items & Quantities</th>
+                  <th>Total</th>
+                  <th>Current Status</th>
+                  <th>Change Status</th>
+                </tr>
+              </thead>
+              <tbody id="owner-orders-tbody">
+                <tr>
+                  <td colspan="7" class="text-center p-4">Loading customer orders...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Inventory CRUD -->
+      <section id="owner-tab-inventory" class="owner-tab" style="display:none;">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-between align-center mb-3 flex-wrap gap-2">
+            <div>
+              <h3>Inventory Catalog Management</h3>
+              <p class="text-muted text-sm">Add medicines, update real-time pricing, adjust stock, and manage batches.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm" onclick="openAddMedicineModal()">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i> Add Medicine SKU
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('csv-file-input').click()">
+                <i data-lucide="upload" style="width:14px;height:14px;"></i> Import CSV
+              </button>
+              <input type="file" id="csv-file-input" accept=".csv" style="display:none;" onchange="handleCsvUpload(event)">
+            </div>
+          </div>
+
+          <!-- Inventory Filter Bar -->
+          <div class="d-flex gap-2 mb-3">
+            <div class="search-input-box flex-1">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="inv-search-filter" placeholder="Filter inventory by medicine name or batch..." onkeyup="filterInventoryTable()">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Medicine</th>
+                  <th>Category</th>
+                  <th>Price (₹)</th>
+                  <th>Discount (₹)</th>
+                  <th>Stock Quantity</th>
+                  <th>Batch</th>
+                  <th>Expiry Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="owner-inventory-tbody">
+                <tr>
+                  <td colspan="8" class="text-center p-4">Loading store inventory...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Stock & Expiry Alerts -->
+      <section id="owner-tab-alerts" class="owner-tab" style="display:none;">
+        <div class="grid-2-col gap-4">
+          
+          <!-- Low Stock Alert Box -->
+          <div class="glass-card p-4">
+            <div class="d-flex align-center gap-2 mb-3">
+              <div class="stat-icon bg-amber" style="width:36px;height:36px;"><i data-lucide="alert-triangle"></i></div>
+              <div>
+                <h3 class="m-0">Low Stock Warnings</h3>
+                <span class="text-xs text-muted">Stock below safe threshold (&lt;10 units)</span>
+              </div>
+            </div>
+            <div id="low-stock-items-container">
+              <p class="text-muted text-sm">No items currently below threshold.</p>
+            </div>
+          </div>
+
+          <!-- Expiry Alert Box -->
+          <div class="glass-card p-4">
+            <div class="d-flex align-center gap-2 mb-3">
+              <div class="stat-icon bg-pink" style="width:36px;height:36px;"><i data-lucide="calendar"></i></div>
+              <div>
+                <h3 class="m-0">Near Expiry Alert</h3>
+                <span class="text-xs text-muted">Items expiring within 60 days</span>
+              </div>
+            </div>
+            <div id="near-expiry-items-container">
+              <p class="text-muted text-sm">No items expiring in the next 60 days.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Medicine Modal -->
+  <div class="modal-backdrop" id="medicine-modal" style="display:none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header d-flex justify-between align-center border-bottom pb-2">
+        <h4 id="med-modal-title">Add Medicine to Store</h4>
+        <button class="close-btn" onclick="closeMedicineModal()">&times;</button>
+      </div>
+      <div class="modal-body py-3">
+        <input type="hidden" id="modal-inv-id" value="">
+
+        <div class="form-group mb-2">
+          <label class="form-label">Medicine Name:</label>
+          <input type="text" id="modal-in-name" class="form-input" placeholder="e.g. Dolo 650 Tablet" required>
+        </div>
+
+        <div class="grid-2-col gap-2 mb-2">
+          <div class="form-group">
+            <label class="form-label">Category:</label>
+            <select id="modal-in-category" class="form-select">
+              <option value="Pain & Fever">Pain & Fever</option>
+              <option value="Antibiotics">Antibiotics</option>
+              <option value="Gastrointestinal">Gastrointestinal</option>
+              <option value="Respiratory & Allergy">Respiratory & Allergy</option>
+              <option value="Cardiovascular">Cardiovascular</option>
+              <option value="Diabetes">Diabetes</option>
+              <option value="Vitamins & Supplements">Vitamins & Supplements</option>
+              <option value="First Aid & Topical">First Aid & Topical</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dosage / Formulation:</label>
+            <input type="text" id="modal-in-dosage" class="form-input" placeholder="e.g. 650mg or 100ml">
+          </div>
+        </div>
+
+        <div class="grid-2-col gap-2 mb-2">
+          <div class="form-group">
+            <label class="form-label">Selling Price (₹):</label>
+            <input type="number" step="0.5" id="modal-in-price" class="form-input" placeholder="30.00" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount Price (₹, optional):</label>
+            <input type="number" step="0.5" id="modal-in-discount" class="form-input" placeholder="27.00">
+          </div>
+        </div>
+
+        <div class="grid-3-col gap-2 mb-3">
+          <div class="form-group">
+            <label class="form-label">Stock Quantity:</label>
+            <input type="number" id="modal-in-stock" class="form-input" placeholder="50" min="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Batch #:</label>
+            <input type="text" id="modal-in-batch" class="form-input" placeholder="BTH-9821">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expiry Date:</label>
+            <input type="date" id="modal-in-expiry" class="form-input">
+          </div>
+        </div>
+
+        <div class="d-flex justify-between align-center p-3 border-top">
+          <button class="btn btn-ghost" onclick="closeMedicineModal()">Cancel</button>
+          <button class="btn btn-primary" id="save-med-btn" onclick="saveMedicine()">Save to Inventory</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/pharmacy_owner.js"></script>
+</body>
+</html>

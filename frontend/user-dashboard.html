@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaNear | Customer Medicine & Pharmacy Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2300B894'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3E💊%3C/text%3E%3C/svg%3E">
+  
+  <!-- CSS Design System -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar dash-navbar">
+    <div class="container-fluid d-flex justify-between align-center">
+      <div class="d-flex align-center gap-3">
+        <a href="index.html" class="navbar-brand">
+          <div class="logo-icon">💊</div>
+          <div class="brand-text">Pharma<span>Near</span></div>
+        </a>
+        <span class="badge badge-primary">Customer Portal</span>
+      </div>
+
+      <div class="d-flex align-center gap-3">
+        <!-- Geolocation Badge -->
+        <div class="location-badge" id="location-badge" onclick="requestUserLocation()" title="Click to update GPS location">
+          <i data-lucide="map-pin" style="width:16px;height:16px;color:var(--primary-color);"></i>
+          <span id="user-location-text">Hyderabad, TS (Auto)</span>
+        </div>
+
+        <!-- Quick Links -->
+        <a href="prescription-scanner.html" class="btn btn-secondary btn-sm">
+          <i data-lucide="scan-line" style="width:15px;height:15px;"></i>
+          <span>Rx Scanner</span>
+        </a>
+        <button class="btn btn-primary btn-sm" onclick="switchTab('ai')" style="background:linear-gradient(135deg, #00B894, #00CEFF);border:none;display:inline-flex;align-items:center;gap:6px;cursor:pointer;" title="Consult PharmaNear AI Pharmacist">
+          <span style="font-size:1.1rem;line-height:1;">🤖</span>
+          <span>AI Pharmacist</span>
+        </button>
+
+        <!-- Notifications Dropdown -->
+        <div class="dropdown-wrapper">
+          <button class="icon-btn" id="notif-toggle" onclick="toggleNotifications()">
+            <i data-lucide="bell" style="width:20px;height:20px;"></i>
+            <span class="badge-dot" id="notif-badge"></span>
+          </button>
+          <div class="glass-dropdown notif-dropdown" id="notif-dropdown">
+            <div class="notif-header">
+              <h4>Notifications</h4>
+              <span class="text-muted text-xs" id="notif-count">0 new</span>
+            </div>
+            <div class="notif-list" id="notif-list">
+              <p class="text-muted text-sm p-3">No new alerts.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-menu">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-meta hide-mobile">
+            <span class="user-name" id="user-display-name">Ashok Kumar</span>
+            <span class="user-role">Customer</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Log Out">
+            <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="dash-sidebar">
+      <nav class="sidebar-nav">
+        <a href="#search-section" class="nav-item active" onclick="switchTab('search')">
+          <i data-lucide="search"></i>
+          <span>Search & Compare</span>
+        </a>
+        <a href="#map-section" class="nav-item" onclick="switchTab('map')">
+          <i data-lucide="map"></i>
+          <span>Nearby Pharmacies</span>
+        </a>
+        <a href="#orders-section" class="nav-item" onclick="switchTab('orders')">
+          <i data-lucide="shopping-bag"></i>
+          <span>My Orders & Holds</span>
+        </a>
+        <a href="prescription-scanner.html" class="nav-item">
+          <i data-lucide="file-text"></i>
+          <span>Prescription AI</span>
+        </a>
+        <a href="#ai-assistant" class="nav-item" onclick="switchTab('ai')">
+          <i data-lucide="bot"></i>
+          <span>PharmaNear AI Bot</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer-card glass-card">
+        <div class="d-flex align-center gap-2 mb-2">
+          <i data-lucide="sparkles" style="color:var(--accent-color);width:18px;height:18px;"></i>
+          <strong>AI Health Tips</strong>
+        </div>
+        <p class="text-xs text-muted">Compare medicine generics across 12+ verified Hyderabad stores to save up to 45%!</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dash-main">
+      
+      <!-- Top Stats Counter -->
+      <section class="stats-row">
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-emerald"><i data-lucide="pill"></i></div>
+          <div>
+            <div class="stat-val" id="stat-medicines">58</div>
+            <div class="stat-lbl">Medicines Cataloged</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-blue"><i data-lucide="store"></i></div>
+          <div>
+            <div class="stat-val" id="stat-stores">12</div>
+            <div class="stat-lbl">Pharmacies in Hyderabad</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-purple"><i data-lucide="badge-percent"></i></div>
+          <div>
+            <div class="stat-val">Up to 40%</div>
+            <div class="stat-lbl">Price Variation Savings</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-amber"><i data-lucide="clock"></i></div>
+          <div>
+            <div class="stat-val">Instant</div>
+            <div class="stat-lbl">Hold & Pickup</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: Search & Price Compare -->
+      <section id="tab-search" class="dash-tab active">
+        
+        <!-- Live Search Bar & Filters -->
+        <div class="search-panel glass-card mb-4">
+          <div class="search-input-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="medicine-search-input" placeholder="Search medicines e.g. Dolo 650, Augmentin, Pan 40, Glycomet, Limcee..." autocomplete="off" onkeyup="handleSearchKey(event)">
+            <button class="btn btn-primary" onclick="performSearch()">
+              <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+              Search
+            </button>
+          </div>
+
+          <!-- Category filter pills -->
+          <div class="category-pills mt-3" id="category-pills">
+            <button class="pill active" onclick="filterCategory('All', this)">All Categories</button>
+            <button class="pill" onclick="filterCategory('Pain & Fever', this)">Pain & Fever</button>
+            <button class="pill" onclick="filterCategory('Antibiotics', this)">Antibiotics</button>
+            <button class="pill" onclick="filterCategory('Gastrointestinal', this)">Gastrointestinal</button>
+            <button class="pill" onclick="filterCategory('Respiratory & Allergy', this)">Respiratory</button>
+            <button class="pill" onclick="filterCategory('Cardiovascular', this)">Cardiovascular</button>
+            <button class="pill" onclick="filterCategory('Diabetes', this)">Diabetes</button>
+            <button class="pill" onclick="filterCategory('Vitamins & Supplements', this)">Vitamins</button>
+            <button class="pill" onclick="filterCategory('First Aid & Topical', this)">First Aid</button>
+          </div>
+
+          <!-- Sort & view controls -->
+          <div class="d-flex justify-between align-center mt-3 pt-3 border-top flex-wrap gap-2">
+            <div class="text-sm text-muted" id="search-status-text">
+              Showing top medicines available in Hyderabad pharmacies.
+            </div>
+            <div class="d-flex align-center gap-2">
+              <span class="text-xs text-muted">Sort by:</span>
+              <select class="form-select form-select-sm" id="sort-selector" onchange="performSearch()">
+                <option value="best_match">Best Match</option>
+                <option value="price_asc">Lowest Price First</option>
+                <option value="distance">Nearest Pharmacy First</option>
+                <option value="stock">Highest Stock</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Medicine Results & Side-by-Side Comparison Container -->
+        <div id="results-container" class="results-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading real-time medicine availability across Hyderabad pharmacies...</p>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- TAB 2: Interactive Pharmacy Locator Map -->
+      <section id="tab-map" class="dash-tab">
+        <div class="glass-card mb-4 p-4">
+          <div class="d-flex justify-between align-center flex-wrap gap-2 mb-3">
+            <div>
+              <h3>Hyderabad Pharmacy Network Locator</h3>
+              <p class="text-muted text-sm">Find real-time open pharmacies near your location with live inventory stocks.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-secondary btn-sm" onclick="locateUserOnMap()">
+                <i data-lucide="crosshair" style="width:15px;height:15px;"></i> My Location
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="refreshPharmacies()">
+                <i data-lucide="refresh-cw" style="width:15px;height:15px;"></i> Refresh Pins
+              </button>
+            </div>
+          </div>
+
+          <!-- Leaflet Map Container -->
+          <div id="pharmacy-map" class="map-box"></div>
+          
+          <!-- Nearby Pharmacies List -->
+          <div class="pharmacies-list-grid mt-4" id="pharmacies-cards-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+
+      <!-- TAB 3: My Orders & Reservations -->
+      <section id="tab-orders" class="dash-tab">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-between align-center mb-3">
+            <div>
+              <h3>My Orders & Stock Reservations</h3>
+              <p class="text-muted text-sm">Track real-time counter pickup readiness and home deliveries.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="loadUserOrders()">
+              <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order Code</th>
+                  <th>Type</th>
+                  <th>Pharmacy</th>
+                  <th>Items</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body">
+                <tr>
+                  <td colspan="8" class="text-center p-4">Loading your orders...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: AI Pharmacist Assistant -->
+      <section id="tab-ai" class="dash-tab">
+        <div class="glass-card chat-wrapper p-4">
+          <div class="chat-header d-flex justify-between align-center border-bottom pb-3 mb-3">
+            <div class="d-flex align-center gap-3">
+              <div class="ai-avatar">🤖</div>
+              <div>
+                <h4 class="m-0">PharmaNear AI Medical Assistant</h4>
+                <span class="status-online"><span class="dot"></span> Online • Clinical & Dosage Guide</span>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="clearChat()">Clear Chat</button>
+          </div>
+
+          <div class="chat-messages" id="chat-messages-container">
+            <div class="chat-bubble ai-msg">
+              <div class="bubble-content">
+                Hello! I am your <strong>PharmaNear AI Assistant</strong>. Ask me anything about medicine dosages, active ingredients, generic substitutes, or where to find items in stock across Hyderabad!
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggested queries -->
+          <div class="chat-suggestions mt-2">
+            <span class="text-xs text-muted">Quick queries:</span>
+            <button class="chip" onclick="askAiPrompt('What is the difference between Dolo 650 and Crocin?')">Dolo vs Crocin</button>
+            <button class="chip" onclick="askAiPrompt('I have acidity and stomach burning, what should I take?')">Acidity Relief</button>
+            <button class="chip" onclick="askAiPrompt('Can you suggest generic alternatives for blood pressure medicine Telma 40?')">Telma 40 Generics</button>
+            <button class="chip" onclick="askAiPrompt('How does the instant medicine reservation work on PharmaNear?')">How Reservation Works</button>
+          </div>
+
+          <div class="chat-input-row mt-3">
+            <input type="text" id="ai-chat-input" placeholder="Type your health or medicine question (e.g. Dolo 650, Augmentin dosage, acidity)..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+            <button class="btn btn-primary" id="ai-send-btn" onclick="sendAiMessage()">
+              <i data-lucide="send" style="width:16px;height:16px;"></i>
+              Send
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Floating AI Assistant Launcher -->
+  <button class="chatbot-trigger-btn" id="dash-floating-ai-btn" onclick="switchTab('ai')" title="Open PharmaNear AI Pharmacist" style="position:fixed;bottom:24px;right:28px;z-index:1050;background:linear-gradient(135deg, #00B894, #00CEFF);color:white;border:none;padding:12px 20px;border-radius:50px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:0.92rem;cursor:pointer;box-shadow:0 8px 25px rgba(0, 184, 148, 0.45);transition:all 0.25s ease;">
+    <span style="font-size:1.3rem;">🤖</span>
+    <span>Ask PharmaNear AI</span>
+    <span style="width:8px;height:8px;background:#55EFC4;border-radius:50%;box-shadow:0 0 8px #55EFC4;"></span>
+  </button>
+
+  <!-- Reserve / Order Modal -->
+  <div class="modal-backdrop" id="action-modal" style="display:none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header d-flex justify-between align-center border-bottom pb-2">
+        <h4 id="modal-title">Reserve Medicine</h4>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body py-3">
+        <div class="item-summary-card mb-3 p-3 bg-subtle rounded">
+          <div class="d-flex justify-between">
+            <div>
+              <strong id="modal-med-name">Dolo 650 Tablet</strong>
+              <div class="text-xs text-muted" id="modal-med-category">Pain & Fever</div>
+            </div>
+            <div class="text-right">
+              <span class="price-tag text-lg" id="modal-item-price">₹30.00</span>
+            </div>
+          </div>
+          <div class="text-xs text-emerald mt-2" id="modal-pharm-name">Apollo Pharmacy - Banjara Hills</div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Quantity (Strips / Units):</label>
+          <div class="qty-counter d-flex align-center gap-2">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="adjustModalQty(-1)">-</button>
+            <input type="number" id="modal-qty" value="1" min="1" max="50" class="form-input text-center" style="width:70px;" onchange="updateModalTotal()">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="adjustModalQty(1)">+</button>
+            <span class="text-xs text-muted ml-2" id="modal-stock-text">In stock: 45 units</span>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Notes for Pharmacist (Optional):</label>
+          <textarea id="modal-notes" class="form-input" rows="2" placeholder="e.g. Will collect at 6 PM, or urgent fever requirement..."></textarea>
+        </div>
+
+        <div class="d-flex justify-between align-center p-3 border-top mt-2">
+          <div>
+            <span class="text-xs text-muted">Estimated Total:</span>
+            <div class="text-xl font-bold text-gradient" id="modal-total-price">₹30.00</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" id="modal-submit-btn" onclick="submitOrderOrReservation()">
+              Confirm Reservation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Main Dashboard Script -->
+  <script src="js/config.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

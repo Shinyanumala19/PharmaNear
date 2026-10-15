@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaNear | Admin Control Center & Analytics</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23FD79A8'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3E⚡%3C/text%3E%3C/svg%3E">
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <!-- Navbar -->
+  <header class="navbar dash-navbar">
+    <div class="container-fluid d-flex justify-between align-center">
+      <div class="d-flex align-center gap-3">
+        <a href="index.html" class="navbar-brand">
+          <div class="logo-icon" style="background:var(--pink);">⚡</div>
+          <div class="brand-text">Pharma<span>Near</span></div>
+        </a>
+        <span class="badge badge-pink">System SuperAdmin</span>
+      </div>
+
+      <div class="d-flex align-center gap-3">
+        <span class="text-xs text-muted hide-mobile">System Health: 100% Operational • SQLite Active</span>
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Log Out">
+          <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <nav class="sidebar-nav">
+        <a href="#overview" class="nav-item active" onclick="switchAdminTab('overview')">
+          <i data-lucide="bar-chart-2"></i>
+          <span>Analytics & Trends</span>
+        </a>
+        <a href="#pharmacies" class="nav-item" onclick="switchAdminTab('pharmacies')">
+          <i data-lucide="store"></i>
+          <span>Manage Pharmacies</span>
+        </a>
+        <a href="#users" class="nav-item" onclick="switchAdminTab('users')">
+          <i data-lucide="users"></i>
+          <span>Manage Users</span>
+        </a>
+        <a href="user-dashboard.html" class="nav-item">
+          <i data-lucide="eye"></i>
+          <span>Customer View</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer-card glass-card">
+        <strong class="text-sm">Platform Summary</strong>
+        <p class="text-xs text-muted mt-1">12 connected Hyderabad medical pharmacies with automated stock synchronization and RapidFuzz matching.</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dash-main">
+      
+      <!-- KPI Stats -->
+      <section class="stats-row">
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-emerald"><i data-lucide="indian-rupee"></i></div>
+          <div>
+            <div class="stat-val" id="stat-revenue">₹0</div>
+            <div class="stat-lbl">Network Gross Revenue</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-blue"><i data-lucide="store"></i></div>
+          <div>
+            <div class="stat-val" id="stat-total-pharmacies">12</div>
+            <div class="stat-lbl">Connected Pharmacies</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-purple"><i data-lucide="pill"></i></div>
+          <div>
+            <div class="stat-val" id="stat-total-meds">58</div>
+            <div class="stat-lbl">Medicines in Database</div>
+          </div>
+        </div>
+        <div class="stat-card glass-card">
+          <div class="stat-icon bg-amber"><i data-lucide="users"></i></div>
+          <div>
+            <div class="stat-val" id="stat-total-users">0</div>
+            <div class="stat-lbl">Registered Accounts</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: Analytics & Charts -->
+      <section id="admin-tab-overview" class="admin-tab active">
+        
+        <div class="grid-2-col gap-4 mb-4">
+          <!-- Chart 1: Categories -->
+          <div class="glass-card p-4">
+            <h4 class="mb-3">Medicines Catalog by Category</h4>
+            <div style="height:280px; position:relative;">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Pharmacy Stocks -->
+          <div class="glass-card p-4">
+            <h4 class="mb-3">Stock Units across Hyderabad Pharmacies</h4>
+            <div style="height:280px; position:relative;">
+              <canvas id="stockChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders Activity -->
+        <div class="glass-card p-4">
+          <h4 class="mb-3">Orders & Holds Activity (Past 7 Days)</h4>
+          <div style="height:240px; position:relative;">
+            <canvas id="orderChart"></canvas>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- TAB 2: Manage Pharmacies -->
+      <section id="admin-tab-pharmacies" class="admin-tab" style="display:none;">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-between align-center mb-3">
+            <div>
+              <h3>Hyderabad Pharmacy Network Partners</h3>
+              <p class="text-muted text-sm">Approve, monitor ratings, or toggle active status for store listings.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="loadAdminPharmacies()">
+              <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Store Name</th>
+                  <th>Location & Phone</th>
+                  <th>Owner Contact</th>
+                  <th>SKUs Stocked</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-pharmacies-tbody">
+                <tr><td colspan="7" class="text-center p-4">Loading pharmacies...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Manage Users -->
+      <section id="admin-tab-users" class="admin-tab" style="display:none;">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-between align-center mb-3">
+            <div>
+              <h3>User Accounts Management</h3>
+              <p class="text-muted text-sm">All registered customers, pharmacy owners, and administrators.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="loadAdminUsers()">
+              <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Refresh
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Joined Date</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-tbody">
+                <tr><td colspan="6" class="text-center p-4">Loading users...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
