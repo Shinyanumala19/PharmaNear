@@ -2,7 +2,52 @@
 
 > **A production-ready healthcare web application connecting patients, local pharmacies, and administrators with real-time medicine availability, price comparison, AI prescription scanning, interactive mapping, and instant reservations.**
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-success?style=for-the-badge&logo=vercel)](https://pharmanear-frontend.vercel.app/)
+[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://pharmanear-8dr8.onrender.com/api/health)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Shinyanumala19/PharmaNear)
+
+---
+
+## 🌐 Live Demo & Repository
+
+- **Live Application:** [PharmaNear | AI-Powered Medicine Availability & Pharmacy Locator](https://pharmanear-frontend.vercel.app/)
+- **Live Backend API (Render):** [https://pharmanear-8dr8.onrender.com/](https://pharmanear-8dr8.onrender.com/)
+- **GitHub Repository:** [https://github.com/Shinyanumala19/PharmaNear](https://github.com/Shinyanumala19/PharmaNear)
+
+---
+
 ![PharmaNear Banner](frontend/assets/images/hero-banner.jpg)
+
+---
+
+## 💻 How to Run Locally
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Shinyanumala19/PharmaNear.git
+cd PharmaNear
+```
+
+### 2. Backend Setup (Flask API)
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+```
+*The Flask backend will start on **`http://127.0.0.1:5000`** with SQLite auto-seeded with 12 pharmacies and 58+ medicines.*
+
+### 3. Frontend Setup (Static Web App)
+You can run the frontend in any of the following ways:
+
+- **Option A (Served directly via Flask Backend):**
+  Once your backend is running, open **[http://localhost:5000](http://localhost:5000)** in your browser. All frontend pages and APIs are served automatically.
+
+- **Option B (Using VS Code Live Server or python http.server):**
+  ```bash
+  cd frontend
+  python -m http.server 3000
+  ```
+  Open **[http://localhost:3000](http://localhost:3000)**. `js/config.js` will automatically route API requests to your local backend on port 5000.
 
 ---
 
